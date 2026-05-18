@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Cafetería Universitaria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="CSS/styles.css" />
+    <style>
+        .divider {
+            position: relative;
+        }
+
+        .divider hr {
+            margin: 0;
+        }
+
+        .divider span {
+            background-color: white;
+            padding: 0 0.75rem;
+            color: var(--ug-muted);
+            font-size: 0.8rem;
+        }
+
+        .guest-btn {
+            transition: all 0.2s ease;
+        }
+
+        .guest-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        #message {
+            border-radius: 2rem;
+            padding: 0.6rem 1rem;
+        }
+    </style>
+</head>
+
+<body class="auth-page">
+    <div class="auth-wrapper d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6 col-lg-5">
+                    <div class="login-card auth-card card shadow-sm border-0">
+                        <div class="card-body p-4 p-md-5 text-center">
+                            <div class="brand-badge mx-auto mb-3">
+                                <img src="./assets/pictures/logoBank.png" alt="LogoBank"
+                                    style="width: 100px; height: 100px; object-fit: contain" />
+                            </div>
+                            <h2 class="h4 fw-bold mb-1">Log In bancario</h2>
+                            <p class="text-muted small mb-4">
+                                Argentaria omnium
+                            </p>
+                            <div id="message"></div>
+
+
+                            <form id="loginForm" novalidate>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Correo electrónico</label>
+                                    <input type="email" class="form-control form-control-lg" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control form-control-lg" id="password" required>
+                                </div>
+                                <div class="d-grid mb-3">
+                                    <button type="submit" id="registerBtn"
+                                        class="btn btn-primary w-100 py-2 fw-semibold">
+                                        <i class="bi bi-person-check me-2"></i>
+                                        Crear cuenta
+                                    </button>
+                                </div>
+
+                            </form>
+
+
+                            <p class="small mb-0">
+                                ¿Eres nuevo? <a href="register.html">Crea una cuenta aquí</a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="module" src="./js/login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
