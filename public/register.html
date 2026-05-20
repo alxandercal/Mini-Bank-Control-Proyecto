@@ -23,7 +23,7 @@
                                     style="width: 100px; height: 100px; object-fit: contain;">
                             </div>
                             <h2>Crea una cuenta Bancaria</h2>
-                            <div id="message"> </div>
+                            <div id="registerAlert" class="alert alert-danger d-none" role="alert"></div>
                             <form id="registerForm" novalidate>
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nombre completo</label>
@@ -32,9 +32,25 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Correo electrónico</label>
-                                    <input type="email" class="form-control form-control-lg" id="email"
-                                        placeholder="Correo institucional" required>
+                                    <input type="email" class="form-control form-control-lg" id="email" required>
                                 </div>
+                                <!-- Numero de telefono -->
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Numero telefonico</label>
+                                    <input type="tel" class="form-control form-control-lg" id="phone" required>
+                                </div>
+                                <!-- curp -->
+                                <div class="mb-3">
+                                    <label for="curp" class="form-label">Curp</label>
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()"
+                                        class="form-control form-control-lg" id="curp" required>
+                                </div>
+                                <!-- address -->
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Direccion</label>
+                                    <input type="text" class="form-control form-control-lg" id="address" required>
+                                </div>
+
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Contraseña</label>
                                     <input type="password" class="form-control form-control-lg" id="password"
@@ -54,7 +70,8 @@
                                 <div class="text-center">
                                     <p class="mb-0 text-secondary">
                                         ¿Ya tienes cuenta?
-                                        <a href="./login.html" class="fw-semibold text-decoration-none">Iniciasesión</a>
+                                        <a href="./login.html" class="fw-semibold text-decoration-none">Inicia
+                                            sesión</a>
                                     </p>
                                 </div>
                             </form>
