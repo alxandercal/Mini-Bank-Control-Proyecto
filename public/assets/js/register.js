@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { showAlert, hideAlert } from "./auth.js"
 
 // Constantes de la pagina
@@ -38,25 +37,15 @@ form?.addEventListener("submit", async (e) => {
         showAlert("registerAlert", 'La constaseña debe de ser de al menos 6 caracteres')
         return
     }
-    // try {
-    //     //const registerBtn = document.getElementById('registerBtn')
-    //     //setButtonLoading(registerBtn, true, '<i class="bi bi-person-check me-2"></i>Crear cuenta', 'Registrando...')
+    try {
+        //const registerBtn = document.getElementById('registerBtn')
+        //setButtonLoading(registerBtn, true, '<i class="bi bi-person-check me-2"></i>Crear cuenta', 'Registrando...')
 
 
-    // } catch (error) {
+    } catch (error) {
 
-    // }
+    }
 
 
 })
 
-=======
-import { hideAlert, showAlert, setButtonLoading, registerUser, getFirebaseErrorMessage } from "./auth.js";
-
-const form = document.getElementById('registerForm')
-const nameInput = document.getElementById('name')
-const emailInput = document.getElementById('email')
-const passwordInput = document.getElementById('password')
-const confirmPasswordInput = document.getElementById('confirmPassword')
-const registerBtn = document.getElementById('registerBtn')
->>>>>>> oscar
