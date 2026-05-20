@@ -22,50 +22,44 @@ export function setButtonLoading(button, isLoading, text, loadingText = "Procesa
         : text;
 }
 // trabaja sobre la funcion
-export async function registerUser({ name, email, password, role }) {
+export async function registerUser({ name, email, password, role = "client", extraInfo = {} }) {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     const user = credential.user;
-
     await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name,
         email,
-        // phone,
-        // adress:  adress || "",
-        // curp,
         state: "Active",
-        role: role || "client",
+        role,
         createdAt: serverTimestamp()
     });
     switch (role) {
         case "client":
-            await setDoc(doc(db, "clientes", user.uid)), {
+            await setDoc(doc(db, "clientes", user.uid), {
                 clientId: user.uid,
-                phone: a,
-                curp: a,
-                address: a,
+                phone: extraInfo.phone || "",
+                curp: extraInfo.curp || "",
+                address: extraInfo.address || "",
                 accountNumber: generateAccountNumber(),
                 balance: 0,
                 state: "Active",
                 updatedAt: serverTimestamp()
-            }
+            });
             break;
 
         case "staff":
-            await setDoc(doc(db, "clientes", user.uid)), {
+            await setDoc(doc(db, "staff", user.uid), {
                 employeeId: user.uid,
-                employeeNumber: a,
-                position: a,
-                sucursal: sucursal || "",
+                employeeNumber: extraInfo.employeeNumber || "",
+                position: extraInfo.position || "",
+                sucursal: extraInfo.sucursal || "",
                 state: "Active",
                 updatedAt: serverTimestamp()
-            }
+            });
             break;
 
         default:
-            alert('Unespected problem try again')
-            break;
-
+            throw new Error('Invalid role');
     }
 
     return user;
