@@ -1,4 +1,4 @@
-import { hideAlert, showAlert, setButtonLoading, registerUser, getFirebaseErrorMessage } from "./auth";
+import { hideAlert, showAlert, setButtonLoading, registerUser, getFirebaseErrorMessage } from "./auth.js";
 
 const form = document.getElementById('registerForm')
 const nameInput = document.getElementById('name')
