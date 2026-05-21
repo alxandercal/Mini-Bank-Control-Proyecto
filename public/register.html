@@ -1,85 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear cuenta</title>
-    <link rel="stylesheet" href="./assets/css/styles.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-
+    <link rel="stylesheet" href="./assets/css/register.css">
 </head>
 
-<body class="auth-page">
-    <div class="auth-wrapper d-flex align-items-center">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-6 col-lg-5">
-                    <div class="sigin-card auth-card card shadow-sm border-0">
-                        <div class="card-body p-4 p-md-5 text-center">
-                            <div class="brand-badge mx-auto mb-3">
-                                <img src="./assets/pictures/logoBank.png" alt="LogoBank"
-                                    style="width: 100px; height: 100px; object-fit: contain;">
-                            </div>
-                            <h2>Crea una cuenta Bancaria</h2>
-                            <div id="registerAlert" class="alert alert-danger d-none" role="alert"></div>
-                            <form id="registerForm" novalidate>
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Nombre completo</label>
-                                    <input type="text" class="form-control form-control-lg" id="name"
-                                        placeholder="Tu nombre completo" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Correo electrónico</label>
-                                    <input type="email" class="form-control form-control-lg" id="email" required>
-                                </div>
-                                <!-- Numero de telefono -->
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">Numero telefonico</label>
-                                    <input type="tel" class="form-control form-control-lg" id="phone" required>
-                                </div>
-                                <!-- curp -->
-                                <div class="mb-3">
-                                    <label for="curp" class="form-label">Curp</label>
-                                    <input type="text" oninput="this.value = this.value.toUpperCase()"
-                                        class="form-control form-control-lg" id="curp" required>
-                                </div>
-                                <!-- address -->
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Direccion</label>
-                                    <input type="text" class="form-control form-control-lg" id="address" required>
-                                </div>
+<body class="register-bank-page">
 
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control form-control-lg" id="password"
-                                        placeholder="Mínimo 6 caracteres" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
-                                    <input type="password" class="form-control form-control-lg" id="confirmPassword"
-                                        placeholder="Repite tu contraseña" required>
-                                </div>
-                                <div class="d-grid mb-3">
-                                    <button type="submit" id="registerBtn" class="btn btn-success btn-lg btnRegistro">
-                                        <i class="bi bi-person-check me-2"></i>
-                                        Crear cuenta
-                                    </button>
-                                </div>
-                                <div class="text-center">
-                                    <p class="mb-0 text-secondary">
-                                        ¿Ya tienes cuenta?
-                                        <a href="./login.html" class="fw-semibold text-decoration-none">Inicia
-                                            sesión</a>
-                                    </p>
-                                </div>
-                            </form>
-                        </div>
+    <main class="desktop-auth register-layout">
+
+        <section class="auth-right register-form-side">
+            <div class="auth-card">
+
+                <h2>Crear cuenta</h2>
+                <p>Registra tus datos para abrir tu cuenta digital</p>
+
+                <div id="message"></div>
+
+                <form id="registerForm">
+
+                    <div class="form-group-bank">
+                        <label for="fullName">Nombre completo</label>
+                        <input type="text" id="fullName" placeholder="Tu nombre completo">
                     </div>
+
+                    <div class="form-group-bank">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" placeholder="correo@argentaria.com">
+                    </div>
+
+                    <div class="form-group-bank">
+                        <label for="phone">Teléfono</label>
+                        <input type="tel" id="phone" placeholder="Número de teléfono">
+                    </div>
+
+                    <div class="form-group-bank">
+                        <label for="curp">CURP</label>
+                        <input type="text" id="curp" placeholder="Ingresa tu CURP" maxlength="18">
+                    </div>
+
+                    <div class="form-group-bank">
+                        <label for="address">Dirección</label>
+                        <input type="text" id="address" placeholder="Calle, número, colonia, ciudad">
+                    </div>
+
+                    <div class="form-group-bank">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" placeholder="Mínimo 6 caracteres">
+                    </div>
+
+                    <div class="form-group-bank">
+                        <label for="confirmPassword">Confirmar contraseña</label>
+                        <input type="password" id="confirmPassword" placeholder="Repite tu contraseña">
+                    </div>
+
+                    <button type="submit" class="btn-bank-primary">
+                        <i class="bi bi-person-plus-fill me-2"></i>
+                        Crear cuenta
+                    </button>
+
+                </form>
+
+                <div class="auth-bottom-links">
+                    ¿Ya tienes cuenta?
+                    <a href="login.html">Inicia sesión</a>
                 </div>
+
             </div>
-            <script type="module" src="./assets/js/register.js"></script>
+        </section>
+
+        <section class="auth-left">
+            <img src="./assets/pictures/logoBank.png" alt="Logo banco">
+            <h1>ARGENTARIA</h1>
+            <p>La nueva experiencia bancaria inteligente.</p>
+        </section>
+
+    </main>
+
+    <script type="module" src="./assets/js/register.js"></script>
+
 </body>
 
 </html>

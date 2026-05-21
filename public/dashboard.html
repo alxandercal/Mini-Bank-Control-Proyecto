@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Bancario</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="./assets/css/dashboard.css?v=30">
+</head>
+
+<body class="dashboard-bank-page">
+
+    <input type="checkbox" id="sidebarToggle" class="sidebar-toggle">
+
+    <label for="sidebarToggle" class="sidebar-menu-btn">
+        <span></span>
+        <span></span>
+    </label>
+
+    <aside class="bank-sidebar">
+
+        <div class="sidebar-logo">
+            <img src="./assets/pictures/logoBank.png" alt="Logo banco">
+
+            <h2>ARGENTARIA</h2>
+
+            <p>Sistema bancario académico</p>
+        </div>
+
+        <nav>
+
+            <a class="active" href="#">
+                <i class="bi bi-grid-1x2"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-people"></i>
+                <span>Clientes</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-building"></i>
+                <span>Cuentas</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-arrow-left-right"></i>
+                <span>Transferencias</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-journal-text"></i>
+                <span>Movimientos</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Salir</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="bank-main">
+
+        <header class="bank-header-desktop">
+
+            <div>
+                <p>Panel principal</p>
+
+                <h1>Bienvenido a Argentaria</h1>
+            </div>
+
+            <div class="header-badge">
+                <i class="bi bi-shield-check"></i>
+                <span>Modo seguro</span>
+            </div>
+
+        </header>
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <i class="bi bi-building"></i>
+
+                <div>
+                    <p>Total de cuentas</p>
+                    <h3>0</h3>
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <i class="bi bi-bank"></i>
+
+                <div>
+                    <p>Saldo global</p>
+                    <h3>$0.00</h3>
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <i class="bi bi-download"></i>
+
+                <div>
+                    <p>Total depósitos</p>
+                    <h3>$0.00</h3>
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <i class="bi bi-upload"></i>
+
+                <div>
+                    <p>Total retiros</p>
+                    <h3>$0.00</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="dashboard-actions">
+
+            <button>
+
+                <i class="bi bi-person-add"></i>
+
+                <span>Crear cliente</span>
+
+            </button>
+
+            <button>
+
+                <i class="bi bi-plus-lg"></i>
+
+                <span>Crear cuenta</span>
+
+            </button>
+
+            <button>
+
+                <i class="bi bi-currency-dollar"></i>
+
+                <span>Depositar</span>
+
+            </button>
+
+            <button>
+
+                <i class="bi bi-wallet"></i>
+
+                <span>Retirar</span>
+
+            </button>
+
+            <button>
+
+                <i class="bi bi-arrow-left-right"></i>
+
+                <span>Transferir</span>
+
+            </button>
+
+            <button>
+
+                <i class="bi bi-journal-text"></i>
+
+                <span>Ver movimientos</span>
+
+            </button>
+
+            <button>
+
+                <i class="bi bi-shield-lock"></i>
+
+                <span>Bloquear cuenta</span>
+
+            </button>
+
+            <button>
+
+                <i class="bi bi-file-earmark-medical"></i>
+
+                <span>Comprobante</span>
+
+            </button>
+
+        </section>
+
+        <section class="dashboard-grid">
+
+            <div class="dashboard-card large">
+
+                <div class="card-title-row">
+
+                    <h3>Cuentas bancarias</h3>
+
+                    <span>Vista previa</span>
+
+                </div>
+
+                <div class="empty-state">
+
+                    <i class="bi bi-bank"></i>
+
+                    <h4>Sin cuentas registradas</h4>
+
+                    <p>
+                        Cuando se creen cuentas, aquí aparecerá el resumen principal.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <div class="card-title-row">
+
+                    <h3>Últimos movimientos</h3>
+
+                    <span>Historial</span>
+
+                </div>
+
+                <div class="movement-list">
+
+                    <div class="movement-item">
+
+                        <i class="bi bi-hourglass-split"></i>
+
+                        <div>
+
+                            <h4>Sin movimientos</h4>
+
+                            <p>
+                                Aquí aparecerán depósitos, retiros y transferencias.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="./assets/js/dashboard.js"></script>
+
+</body>
+
+</html>

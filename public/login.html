@@ -2,63 +2,68 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - Cafetería Universitaria</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
-    <link rel="stylesheet" href="CSS/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Bancario</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./assets/css/login.css">
 </head>
 
-<body class="auth-page">
-    <div class="auth-wrapper d-flex align-items-center">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-6 col-lg-5">
-                    <div class="login-card auth-card card shadow-sm border-0">
-                        <div class="card-body p-4 p-md-5 text-center">
-                            <div class="brand-badge mx-auto mb-3">
-                                <img src="./assets/pictures/logoBank.png" alt="LogoBank"
-                                    style="width: 100px; height: 100px; object-fit: contain" />
-                            </div>
-                            <h2 class="h4 fw-bold mb-1">Log In bancario</h2>
-                            <p class="text-muted small mb-4">
-                                Argentaria omnium
-                            </p>
-                            <div id="loginAlert" class="alert alert-danger d-none" role="alert"></div>
-                            <form id="loginForm" novalidate>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Correo electrónico</label>
-                                    <input type="email" class="form-control form-control-lg" id="email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control form-control-lg" id="password" required>
-                                </div>
-                                <div class="d-grid mb-3">
-                                    <button type="submit" id="registerBtn"
-                                        class="btn btn-primary w-100 py-2 fw-semibold">
-                                        <i class="bi bi-person-check me-2"></i>
-                                        Crear cuenta
-                                    </button>
-                                </div>
-                            </form>
-                            <p class="small mb-0">
-                                ¿Eres nuevo? <a href="register.html">Crea una cuenta aquí</a>
-                            </p>
+<body class="login-bank-page">
 
-                        </div>
+    <main class="desktop-auth">
+
+        <section class="auth-left">
+            <img src="./assets/pictures/logoBank.png" alt="Logo banco">
+            <h1>ARGENTARIA</h1>
+            <p>Tu banca digital segura, rápida y moderna.</p>
+        </section>
+
+        <section class="auth-right">
+            <div class="auth-card">
+
+                <h2>Iniciar sesión</h2>
+                <p>Accede a tu cuenta bancaria</p>
+
+                <form id="loginForm">
+
+                    <div class="form-group-bank">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" placeholder="tu correo">
                     </div>
+
+                    <div class="form-group-bank">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" placeholder="contraseña">
+                    </div>
+
+                    <button type="submit" class="btn-bank-primary">
+                        LOG IN
+                    </button>
+
+                    <a href="#" class="bank-link center">
+                        ¿Olvidaste tu usuario/contraseña?
+                    </a>
+
+                </form>
+
+                <div class="auth-bottom-links">
+                    <a href="register.html">Crear cuenta</a>
+                    <span>|</span>
+                    <a href="#">Ubicaciones</a>
+                    <span>|</span>
+                    <a href="#">Contacto</a>
                 </div>
+
             </div>
-        </div>
-    </div>
+        </section>
 
+    </main>
 
+<script type="module" src="./assets/js/login.js"></script>
 
-    <script type="module" src="./js/login.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
