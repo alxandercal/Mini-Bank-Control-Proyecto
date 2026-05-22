@@ -11,8 +11,8 @@ body {
 .login-bank-page {
     min-height: 100vh;
     background:
-        radial-gradient(circle at 15% 15%, rgba(255,255,255,.35), transparent 28%),
-        radial-gradient(circle at 85% 85%, rgba(0,43,92,.35), transparent 32%),
+        radial-gradient(circle at 15% 15%, rgba(255, 255, 255, .35), transparent 28%),
+        radial-gradient(circle at 85% 85%, rgba(0, 43, 92, .35), transparent 32%),
         linear-gradient(135deg, #ff5a5f 0%, #dc143c 45%, #7a0010 100%);
     display: flex;
     align-items: center;
@@ -27,9 +27,8 @@ body {
     grid-template-columns: 1fr 1fr;
     border-radius: 34px;
     overflow: hidden;
-    background: rgba(255,255,255,.18);
-    backdrop-filter: blur(18px);
-    box-shadow: 0 35px 90px rgba(0,0,0,.30);
+    background: rgba(255, 255, 255, .18);
+    box-shadow: 0 35px 90px rgba(0, 0, 0, .30);
 }
 
 .auth-left {
@@ -41,8 +40,8 @@ body {
     text-align: center;
     padding: 60px;
     background:
-        radial-gradient(circle at top right, rgba(255,255,255,.25), transparent 35%),
-        linear-gradient(160deg, rgba(255,255,255,.18), rgba(255,255,255,.04));
+        radial-gradient(circle at top right, rgba(255, 255, 255, .25), transparent 35%),
+        linear-gradient(160deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .04));
 }
 
 .auth-left img {
@@ -53,7 +52,7 @@ body {
     padding: 16px;
     border-radius: 30px;
     margin-bottom: 28px;
-    box-shadow: 0 20px 45px rgba(0,0,0,.28);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, .28);
 }
 
 .auth-left h1 {
@@ -65,8 +64,7 @@ body {
 
 .auth-left p {
     font-size: 1.08rem;
-    color: rgba(255,255,255,.9);
-    max-width: 360px;
+    color: rgba(255, 255, 255, .9);
 }
 
 .auth-right {
@@ -99,7 +97,7 @@ body {
     background: white;
     padding: 36px;
     border-radius: 28px;
-    box-shadow: 0 22px 55px rgba(0,0,0,.14);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, .14);
 }
 
 .form-group-bank {
@@ -129,7 +127,7 @@ body {
 
 .form-group-bank input:focus {
     border-color: #d90429;
-    box-shadow: 0 0 0 4px rgba(217,4,41,.13);
+    box-shadow: 0 0 0 4px rgba(217, 4, 41, .13);
 }
 
 .btn-bank-primary {
@@ -150,7 +148,7 @@ body {
 .btn-bank-primary:hover {
     background: linear-gradient(135deg, #d90429, #9b0010);
     transform: translateY(-2px);
-    box-shadow: 0 14px 28px rgba(217,4,41,.25);
+    box-shadow: 0 14px 28px rgba(217, 4, 41, .25);
 }
 
 .bank-link {
@@ -158,11 +156,8 @@ body {
     margin-top: 20px;
     color: #0057a8;
     font-weight: 800;
-    text-decoration: none;
-}
-
-.bank-link.center {
     text-align: center;
+    text-decoration: none;
 }
 
 .bank-link:hover {
@@ -172,8 +167,6 @@ body {
 .auth-bottom-links {
     text-align: center;
     margin-top: 26px;
-    color: #667085;
-    font-weight: 700;
 }
 
 .auth-bottom-links a {
@@ -186,11 +179,11 @@ body {
     color: #d90429;
 }
 
-.auth-bottom-links span {
-    margin: 0 10px;
-}
-
 @media (max-width: 850px) {
+    .login-bank-page {
+        padding: 18px;
+    }
+
     .desktop-auth {
         width: 100%;
         grid-template-columns: 1fr;

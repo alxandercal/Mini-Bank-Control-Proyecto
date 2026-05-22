@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar cuenta</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/recuperar.css">
+</head>
+
+<body class="recover-bank-page">
+
+    <main class="recover-auth">
+
+        <section class="recover-left">
+            <img src="./assets/pictures/logoBank.png" alt="Logo banco">
+            <h1>ARGENTARIA</h1>
+            <p>Recupera el acceso a tu banca digital de forma segura.</p>
+        </section>
+
+        <section class="recover-right">
+            <div class="recover-card">
+
+                <a href="login.html" class="back-link">← Volver</a>
+
+                <h2>Recuperar cuenta</h2>
+                <p>Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>
+
+                <form id="recuperarForm">
+
+                    <div class="form-group-bank">
+                        <label for="correoRecuperar">Correo electrónico</label>
+                        <input type="email" id="correoRecuperar" placeholder="tu correo">
+                    </div>
+
+                    <button type="submit" class="btn-bank-primary">
+                        Enviar enlace
+                    </button>
+
+                </form>
+
+                <div class="recover-bottom">
+                    <a href="login.html">Iniciar sesión</a>
+                    <span>|</span>
+                    <a href="register.html">Crear cuenta</a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="./assets/js/recuperar.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.recover-bank-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #d90429, #3b0010);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.recover-auth {
+    width: 100%;
+    max-width: 1030px;
+    min-height: 630px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    border-radius: 32px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+.recover-left {
+    background: linear-gradient(135deg, rgba(255, 111, 130, 0.78), rgba(188, 0, 45, 0.85));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    padding: 50px;
+}
+
+.recover-left img {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    background: #fff;
+    padding: 25px;
+    border-radius: 26px;
+    margin-bottom: 35px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+}
+
+.recover-left h1 {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    margin-bottom: 18px;
+}
+
+.recover-left p {
+    font-size: 17px;
+    max-width: 420px;
+}
+
+.recover-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 55px;
+}
+
+.recover-card {
+    width: 100%;
+    max-width: 405px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 22px;
+    color: #00539f;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.recover-card h2 {
+    font-size: 36px;
+    font-weight: 900;
+    color: #111827;
+    margin-bottom: 10px;
+}
+
+.recover-card p {
+    color: #667085;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+form {
+    background: #fff;
+    padding: 34px;
+    border-radius: 26px;
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+}
+
+.form-group-bank {
+    margin-bottom: 24px;
+}
+
+.form-group-bank label {
+    display: block;
+    font-size: 14px;
+    font-weight: 900;
+    color: #101828;
+    margin-bottom: 10px;
+}
+
+.form-group-bank input {
+    width: 100%;
+    height: 54px;
+    border: 1px solid #d0d5dd;
+    border-radius: 15px;
+    padding: 0 16px;
+    font-size: 15px;
+    outline: none;
+    color: #111827;
+}
+
+.form-group-bank input:focus {
+    border-color: #00539f;
+    box-shadow: 0 0 0 4px rgba(0, 83, 159, 0.12);
+}
+
+.btn-bank-primary {
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #0060b8, #004b93);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-bank-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0, 83, 159, 0.35);
+}
+
+.recover-bottom {
+    margin-top: 28px;
+    text-align: center;
+    font-weight: 800;
+    color: #667085;
+}
+
+.recover-bottom a {
+    color: #00539f;
+    text-decoration: none;
+    margin: 0 8px;
+}
+
+.recover-bottom a:hover,
+.back-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 850px) {
+    .recover-auth {
+        grid-template-columns: 1fr;
+    }
+
+    .recover-left {
+        padding: 40px 25px;
+    }
+
+    .recover-left h1 {
+        font-size: 34px;
+        letter-spacing: 5px;
+    }
+
+    .recover-right {
+        padding: 35px 25px;
+    }
+}

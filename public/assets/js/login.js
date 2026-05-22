@@ -1,27 +1,23 @@
-//login.js
-const form = document.getElementById('loginForm')
+import { auth } from "./firebase.js"
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"
 
-form?.addEventListener('submit', (e) => {
+const form = document.getElementById("loginForm")
+
+form?.addEventListener("submit", async (e) => {
     e.preventDefault()
 
-    const email = document.getElementById('email').value.trim()
-    const password = document.getElementById('password').value
+    const email = document.getElementById("email").value.trim()
+    const password = document.getElementById("password").value
 
     if (!email || !password) {
-        alert('todos los datos son obligatorios')
+        alert("todos los datos son obligatorios")
         return
     }
 
-    const users = JSON.parse(localStorage.getItem('users')) || []
-    const user = users.find(u => u.email === email && u.password === password)
-
-    if (!user) {
-        alert('correo o contraseña incorrectos')
-        return
+    try {
+        await signInWithEmailAndPassword(auth, email, password)
+        window.location.href = "dashboard.html"
+    } catch (error) {
+        alert("correo o contraseña incorrectos")
     }
-
-    //guardar sesion activa
-    localStorage.setItem('currentUser', JSON.stringify(user))
-
-    window.location.href = 'dashboard.html'
 })
