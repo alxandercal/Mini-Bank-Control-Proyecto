@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimientos Argentaria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./assets/css/dashboard.css?v=30">
+</head>
+
+<body class="dashboard-bank-page">
+    <input type="checkbox" id="sidebarToggle" class="sidebar-toggle">
+    <label for="sidebarToggle" class="sidebar-menu-btn">
+        <span></span>
+        <span></span>
+    </label>
+    <aside class="bank-sidebar">
+        <div class="sidebar-logo">
+            <img src="./assets/pictures/logoBank.png" alt="Logo banco">
+            <h2>ARGENTARIA</h2>
+            <p>Sistema bancario académico</p>
+        </div>
+        <nav>
+            <a href="dashboard.html">
+                <i class="bi bi-grid-1x2"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-people"></i>
+                <span>Clientes</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-building"></i>
+                <span>Cuentas</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-arrow-left-right"></i>
+                <span>Transferencias</span>
+            </a>
+
+            <a href="transaction.html">
+                <i class="bi bi-journal-text"></i>
+                <span>Movimientos</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Salir</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="bank-main">
+        <header class="bank-header-desktop">
+            <div>
+                <p>Historial de transacciones</p>
+                <h1>Movimientos de la Cuenta</h1>
+            </div>
+            <div class="header-badge">
+                <i class="bi bi-shield-check"></i>
+                <span>Modo seguro</span>
+            </div>
+        </header>
+
+        <section class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-3">
+            <h5 class="mb-3 text-secondary"><i class="bi bi-funnel me-2"></i>Filtrar transacciones</h5>
+            <form class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label text-muted small">Seleccionar Cuenta</label>
+                    <select class="form-select">
+                        <option selected>Todas las cuentas</option>
+                        <option value="1">Cuenta Corriente (*4567)</option>
+                        <option value="2">Cuenta de Ahorros (*8901)</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label text-muted small">Tipo de movimiento</label>
+                    <select class="form-select">
+                        <option selected>Todos</option>
+                        <option value="deposito">Depósitos</option>
+                        <option value="retiro">Retiros</option>
+                        <option value="transferencia">Transferencias</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label text-muted small">Fecha</label>
+                    <input type="date" class="form-select">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="button" class="btn btn-primary w-100">
+                        <i class="bi bi-search me-1"></i> Buscar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card border-0 shadow-sm bg-white rounded-3 overflow-hidden">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4 py-3">Fecha y Hora</th>
+                                <th class="py-3">ID Transacción</th>
+                                <th class="py-3">Descripción / Concepto</th>
+                                <th class="py-3">Tipo</th>
+                                <th class="text-end pe-4 py-3">Monto</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-semibold">24 May 2026</div>
+                                    <small class="text-muted">10:14 AM</small>
+                                </td>
+                                <td class="text-monospace text-muted small">#TXN-98231</td>
+                                <td>
+                                    <div class="fw-semibold">Depósito en Ventanilla</div>
+                                    <small class="text-muted">Sucursal Centro</small>
+                                </td>
+                                <td>
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">Depósito</span>
+                                </td>
+                                <td class="text-end pe-4 fw-bold text-success">+$500.00</td>
+                            </tr>
+                           
+                            
+                            
+                    </table>
+                </div>
+            </div>
+            
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center py-3 border-top-0">
+                <span class="text-muted small">Mostrando 3 de 3 movimientos</span>
+                <nav>
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module" src="./assets/js/dashboard.js"></script>
+</body>
+
+</html>
