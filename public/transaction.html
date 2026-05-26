@@ -37,17 +37,17 @@
                 <span>Cuentas</span>
             </a>
 
-            <a href="#">
+            <a href="transfer.html">
                 <i class="bi bi-arrow-left-right"></i>
                 <span>Transferencias</span>
             </a>
 
-            <a href="transaction.html">
+            <a class="active" href="transaction.html">
                 <i class="bi bi-journal-text"></i>
                 <span>Movimientos</span>
             </a>
 
-            <a href="#">
+            <a href="login.html">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Salir</span>
             </a>
@@ -73,7 +73,6 @@
                     <label class="form-label text-muted small">Seleccionar Cuenta</label>
                     <select class="form-select">
                         <option selected>Todas las cuentas</option>
-
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -94,7 +93,6 @@
                         <i class="bi bi-search me-1"></i> Buscar
                     </button>
                 </div>
-
             </form>
         </section>
 
@@ -111,28 +109,128 @@
                                 <th class="text-end pe-4 py-3">Monto</th>
                             </tr>
                         </thead>
-
-
+                        
+                        <tbody id="tablaMovimientos">
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    Cargando historial de movimientos...
+                                </td>
+                            </tr>
+                        </tbody>
 
                     </table>
                 </div>
             </div>
             
             <div class="card-footer bg-white d-flex justify-content-between align-items-center py-3 border-top-0">
-
+                <span class="text-muted small" id="totalMovimientosText">Mostrando 0 movimientos</span>
                 <nav>
                     <ul class="pagination pagination-sm mb-0">
                         <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
                         <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#">Siguiente</a></li>
                     </ul>
                 </nav>
             </div>
         </section>
-
     </main>
 
     <script type="module" src="./assets/js/dashboard.js"></script>
-</body>
 
+    <script type="module">
+        import { db } from "./assets/js/firebase-config.js";
+        import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+        const tablaMovimientos = document.getElementById('tablaMovimientos');
+        const totalMovimientosText = document.getElementById('totalMovimientosText');
+
+        // Referencia ordenada a la colección 'movimientos' (más recientes primero)
+        const q = query(collection(db, "movimientos"), orderBy("fecha", "desc"));
+
+        // onSnapshot escucha los cambios en tiempo real sin recargar la página
+        onSnapshot(q, (snapshot) => {
+            let htmlRows = "";
+            let contador = 0;
+
+            if (snapshot.empty) {
+                tablaMovimientos.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted">
+                            <i class="bi bi-hourglass-split d-block fs-2 mb-2"></i>
+                            Sin movimientos registrados en esta cuenta.
+                        </td>
+                    </tr>
+                `;
+                totalMovimientosText.innerText = "Mostrando 0 movimientos";
+                return;
+            }
+
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                contador++;
+
+                // Formatear la fecha guardada en Firestore a algo legible
+                let fechaFormateada = "Reciente";
+                let horaFormateada = "";
+                if (data.fecha) {
+                    const dateObj = data.fecha.toDate();
+                    fechaFormateada = dateObj.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+                    horaFormateada = dateObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+                }
+
+                // Configurar estilos visuales según el tipo de movimiento
+                let badgeClass = "bg-primary-subtle text-primary border-primary-subtle";
+                let montoClass = "text-danger";
+                let signo = "-";
+
+                if (data.tipo === "Depósito" || data.tipo === "deposito") {
+                    badgeClass = "bg-success-subtle text-success border-success-subtle";
+                    montoClass = "text-success";
+                    signo = "+";
+                } else if (data.tipo === "Transferencia") {
+                    badgeClass = "bg-primary-subtle text-primary border-primary-subtle";
+                    montoClass = "text-danger"; // Las transferencias enviadas restan dinero
+                    signo = "-";
+                } else if (data.tipo === "Retiro" || data.tipo === "retiro") {
+                    badgeClass = "bg-danger-subtle text-danger border-danger-subtle";
+                    montoClass = "text-danger";
+                    signo = "-";
+                }
+
+                // Generar el código HTML de la fila
+                htmlRows += `
+                    <tr>
+                        <td class="ps-4">
+                            <div class="fw-semibold">${fechaFormateada}</div>
+                            <small class="text-muted">${horaFormateada}</small>
+                        </td>
+                        <td class="text-monospace text-muted small">#${doc.id.substring(0, 7).toUpperCase()}</td>
+                        <td>
+                            <div class="fw-semibold">${data.concepto || 'Sin concepto'}</div>
+                            <small class="text-muted">${data.cuentaOrigen || 'N/A'} ➔ ${data.cuentaDestino || 'N/A'}</small>
+                        </td>
+                        <td>
+                            <span class="badge ${badgeClass} border rounded-pill px-3">${data.tipo}</span>
+                        </td>
+                        <td class="text-end pe-4 fw-bold ${montoClass}">${signo}$${parseFloat(data.monto).toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            // Reemplazar el contenido de la tabla con las filas construidas
+            tablaMovimientos.innerHTML = htmlRows;
+            totalMovimientosText.innerText = `Mostrando ${contador} ${contador === 1 ? 'movimiento' : 'movimientos'}`;
+        }, (error) => {
+            console.error("Error al escuchar movimientos: ", error);
+            tablaMovimientos.innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-danger">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Error al cargar datos. Verifique los permisos de Firestore.
+                    </td>
+                </tr>
+            `;
+        });
+    </script>
+</body>
 </html>
