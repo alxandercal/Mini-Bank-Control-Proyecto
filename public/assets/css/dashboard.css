@@ -38,7 +38,7 @@ body {
     gap: 7px;
     cursor: pointer;
     box-shadow: 0 14px 34px rgba(0, 0, 0, .14);
-    transition: .25s;
+    transition: .25s ease;
 }
 
 .sidebar-menu-btn:hover {
@@ -50,7 +50,7 @@ body {
     height: 3px;
     background: #d90429;
     border-radius: 999px;
-    transition: .25s;
+    transition: .25s ease;
 }
 
 .bank-sidebar {
@@ -108,12 +108,34 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
-    transition: .25s;
+    background: transparent;
+    transition: .25s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.bank-sidebar nav a:hover,
+.bank-sidebar nav a:hover {
+    background: rgba(255, 255, 255, .12);
+    transform: translateX(6px);
+}
+
 .bank-sidebar nav a.active {
-    background: rgba(255, 255, 255, .16);
+    background: rgba(255, 255, 255, .18);
+    transform: translateX(6px);
+}
+
+.bank-sidebar nav a:focus,
+.bank-sidebar nav a:active {
+    outline: none;
+}
+
+.bank-sidebar nav a:focus:not(:focus-visible) {
+    background: transparent;
+    transform: none;
+}
+
+.bank-sidebar nav a.active:focus:not(:focus-visible) {
+    background: rgba(255, 255, 255, .18);
     transform: translateX(6px);
 }
 
@@ -187,7 +209,7 @@ body {
     gap: 18px;
     box-shadow: 0 16px 36px rgba(0, 0, 0, .08);
     border: 1px solid rgba(15, 23, 42, .05);
-    transition: .25s;
+    transition: .25s ease;
 }
 
 .stat-card:hover {
@@ -233,7 +255,7 @@ body {
     box-shadow: 0 16px 36px rgba(0, 0, 0, .08);
     font-weight: 900;
     cursor: pointer;
-    transition: .25s;
+    transition: .25s ease;
     position: relative;
     overflow: hidden;
 }
@@ -247,7 +269,7 @@ body {
     border-radius: 50%;
     top: -42px;
     right: -42px;
-    transition: .25s;
+    transition: .25s ease;
 }
 
 .dashboard-actions button:hover {
@@ -267,7 +289,7 @@ body {
     color: #d90429;
     position: relative;
     z-index: 1;
-    transition: .25s;
+    transition: .25s ease;
 }
 
 .dashboard-actions button:hover i {
@@ -278,54 +300,6 @@ body {
     position: relative;
     z-index: 1;
     font-size: 1.05rem;
-}
-
-.sidebar-toggle:checked ~ .bank-sidebar {
-    width: 78px;
-    padding: 24px 10px;
-}
-
-.sidebar-toggle:checked ~ .bank-sidebar .sidebar-logo {
-    display: none;
-}
-
-.sidebar-toggle:checked ~ .bank-sidebar nav {
-    gap: 18px;
-    align-items: center;
-    margin-top: 96px;
-}
-
-.sidebar-toggle:checked ~ .bank-sidebar nav a {
-    width: 54px;
-    height: 54px;
-    border-radius: 18px;
-    justify-content: center;
-    padding: 0;
-}
-
-.sidebar-toggle:checked ~ .bank-sidebar nav a span {
-    display: none;
-}
-
-.sidebar-toggle:checked ~ .bank-sidebar nav a:hover,
-.sidebar-toggle:checked ~ .bank-sidebar nav a.active {
-    transform: scale(1.08);
-}
-
-.sidebar-toggle:checked ~ .bank-sidebar nav a i {
-    font-size: 1.35rem;
-}
-
-.sidebar-toggle:checked ~ .sidebar-menu-btn {
-    left: 11px;
-}
-
-.sidebar-toggle:checked ~ .sidebar-menu-btn span:first-child {
-    transform: rotate(45deg) translate(4px, 4px);
-}
-
-.sidebar-toggle:checked ~ .sidebar-menu-btn span:last-child {
-    transform: rotate(-45deg) translate(3px, -3px);
 }
 
 .dashboard-card {
@@ -422,16 +396,6 @@ body {
     animation: bank-fade-in .25s ease;
 }
 
-@keyframes bank-fade-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
 .bank-modal-content {
     background: white;
     border-radius: 32px;
@@ -440,18 +404,6 @@ body {
     box-shadow: 0 30px 80px rgba(0, 0, 0, .35);
     overflow: hidden;
     animation: bank-slide-up .3s ease;
-}
-
-@keyframes bank-slide-up {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
 }
 
 .bank-modal-header {
@@ -491,7 +443,7 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: .25s;
+    transition: .25s ease;
     font-size: 1.1rem;
 }
 
@@ -526,7 +478,7 @@ body {
     background: #f8fafc;
     font-size: 1rem;
     font-weight: 600;
-    transition: .25s;
+    transition: .25s ease;
     outline: none;
 }
 
@@ -549,7 +501,7 @@ body {
     border: none;
     font-weight: 900;
     cursor: pointer;
-    transition: .25s;
+    transition: .25s ease;
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -579,6 +531,88 @@ body {
 
 .btn-bank-secondary:hover {
     background: #e2e8f0;
+}
+
+.sidebar-toggle:checked ~ .bank-sidebar {
+    width: 78px;
+    padding: 24px 10px;
+}
+
+.sidebar-toggle:checked ~ .bank-sidebar .sidebar-logo {
+    display: none;
+}
+
+.sidebar-toggle:checked ~ .bank-sidebar nav {
+    gap: 18px;
+    align-items: center;
+    margin-top: 96px;
+}
+
+.sidebar-toggle:checked ~ .bank-sidebar nav a {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    justify-content: center;
+    padding: 0;
+}
+
+.sidebar-toggle:checked ~ .bank-sidebar nav a span {
+    display: none;
+}
+
+.sidebar-toggle:checked ~ .bank-sidebar nav a:hover,
+.sidebar-toggle:checked ~ .bank-sidebar nav a.active {
+    transform: scale(1.08);
+}
+
+.sidebar-toggle:checked ~ .bank-sidebar nav a i {
+    font-size: 1.35rem;
+}
+
+.sidebar-toggle:checked ~ .sidebar-menu-btn {
+    left: 11px;
+}
+
+.sidebar-toggle:checked ~ .sidebar-menu-btn span:first-child {
+    transform: rotate(45deg) translate(4px, 4px);
+}
+
+.sidebar-toggle:checked ~ .sidebar-menu-btn span:last-child {
+    transform: rotate(-45deg) translate(3px, -3px);
+}
+
+@keyframes bank-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bank-slide-up {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (hover: none) {
+    .bank-sidebar nav a:hover {
+        background: transparent;
+        transform: none;
+    }
+
+    .bank-sidebar nav a.active {
+        background: rgba(255, 255, 255, .18);
+        transform: none;
+    }
 }
 
 @media (max-width: 1100px) {
@@ -675,4 +709,195 @@ body {
     .bank-modal-header h3 {
         font-size: 1.3rem;
     }
+}
+
+.withdraw-phone-card {
+    width: 100%;
+    max-width: 960px;
+    margin: 40px auto 0;
+    background: #fff;
+    color: #101828;
+    border-radius: 12px;
+    padding: 48px 58px;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, .08);
+}
+
+.withdraw-close {
+    display: none;
+}
+
+.withdraw-head {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid #d9dee8;
+}
+
+.withdraw-head::before {
+    content: "\F62B";
+    font-family: "bootstrap-icons";
+    width: 82px;
+    height: 82px;
+    background: #ffd7df;
+    color: #d90429;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.withdraw-head h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #1f2937;
+    margin: 0 0 8px;
+}
+
+.withdraw-head p {
+    color: #667085;
+    font-weight: 600;
+    margin: 0;
+}
+
+.withdraw-options {
+    display: grid;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.withdraw-option {
+    width: 100%;
+    border: none;
+    background: #f6f7f9;
+    border-radius: 22px;
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 66px 1fr 26px;
+    gap: 18px;
+    align-items: center;
+    text-align: left;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.withdraw-option:hover {
+    background: #fff1f2;
+    transform: translateY(-3px);
+}
+
+.withdraw-option-icon {
+    width: 58px;
+    height: 58px;
+    background: #fff;
+    color: #d90429;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.55rem;
+}
+
+.withdraw-option h3 {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #1f2937;
+    margin-bottom: 5px;
+}
+
+.withdraw-option p {
+    color: #667085;
+    font-size: .95rem;
+    margin: 0;
+}
+
+.withdraw-arrow {
+    color: #d90429;
+    font-size: 1.3rem;
+}
+
+.withdraw-panel {
+    display: none;
+    background: #f6f7f9;
+    border-radius: 22px;
+    padding: 30px;
+    margin-top: 24px;
+}
+
+.withdraw-panel.is-open {
+    display: block;
+}
+
+.withdraw-panel-title h2 {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #1f2937;
+    margin-bottom: 6px;
+}
+
+.withdraw-panel-title p {
+    color: #667085;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+.withdraw-main-btn {
+    width: 100%;
+    margin-top: 22px;
+    border: none;
+    border-radius: 16px;
+    padding: 16px;
+    background: linear-gradient(135deg, #d90429, #9b0017);
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+@media (max-width: 850px) {
+    .withdraw-phone-card {
+        padding: 30px 24px;
+        margin-top: 20px;
+    }
+
+    .withdraw-head {
+        align-items: flex-start;
+    }
+
+    .withdraw-option {
+        grid-template-columns: 54px 1fr 20px;
+        padding: 20px;
+    }
+}
+.real-barcode {
+    height: 90px;
+    background: white;
+    padding: 14px;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 12px;
+    margin: 12px 0;
+}
+
+.real-barcode span {
+    height: 100%;
+    background: #111;
+    display: block;
+}
+
+.real-barcode span:nth-child(odd) {
+    width: 4px;
+}
+
+.real-barcode span:nth-child(even) {
+    width: 9px;
+}
+
+.barcode-box small {
+    display: block;
+    color: #667085;
+    margin-top: 8px;
+    font-weight: 700;
 }
