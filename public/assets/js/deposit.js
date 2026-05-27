@@ -6,6 +6,7 @@ import {
     getDocs,
     doc,
     getDoc,
+    addDoc,
     runTransaction,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js"
@@ -27,9 +28,20 @@ export async function findClientByAccountNumber(accountNumber) {
     }
 }
 
+// obtiene el nombre del cliente desde la coleccion users
+export async function getClientName(clientId) {
+    try {
+        const userSnap = await getDoc(doc(db, "users", clientId))
+        if (!userSnap.exists()) return "Cliente"
+        return userSnap.data().name || "Cliente"
+    } catch (error) {
+        return "Cliente"
+    }
+}
+
 // deposita dinero en la cuenta del cliente
 // se usa una transaccion para que dos depositos al mismo tiempo no se pisen
-export async function depositToAccount({ accountNumber, amount }) {
+export async function depositToAccount({ accountNumber, amount, performedBy = "system" }) {
 
     if (!accountNumber) {
         throw new Error("debes ingresar un numero de cuenta")
@@ -45,6 +57,10 @@ export async function depositToAccount({ accountNumber, amount }) {
 
     if (!client) {
         throw new Error("no se encontro ninguna cuenta con ese numero")
+    }
+
+    if (client.data.state !== "Active") {
+        throw new Error("esta cuenta esta bloqueada o inactiva")
     }
 
     const clientRef = doc(db, "clientes", client.id)
@@ -67,8 +83,30 @@ export async function depositToAccount({ accountNumber, amount }) {
         return { currentBalance, newBalance }
     })
 
+    // registra el movimiento para el historial
+    await addDoc(collection(db, "movimientos"), {
+        type: "deposit",
+        accountNumber,
+        clientId: client.id,
+        amount: numericAmount,
+        previousBalance: result.currentBalance,
+        newBalance: result.newBalance,
+        performedBy,
+        createdAt: serverTimestamp()
+    })
+
+    const clientName = await getClientName(client.id)
+
+    console.log("deposito =>", {
+        accountNumber,
+        clientName,
+        amount: numericAmount,
+        newBalance: result.newBalance
+    })
+
     return {
         accountNumber,
+        clientName,
         previousBalance: result.currentBalance,
         newBalance: result.newBalance,
         amount: numericAmount
