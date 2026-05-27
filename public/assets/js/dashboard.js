@@ -64,6 +64,22 @@ depositForm?.addEventListener("submit", async (e) => {
     const accountNumber = depositAccountInput.value.trim()
     const amount = depositAmountInput.value.trim()
 
+    // validaciones de front
+    if (!accountNumber || !amount) {
+        showAlert("depositAlert", "todos los datos son obligatorios")
+        return
+    }
+
+    if (accountNumber.length !== 10) {
+        showAlert("depositAlert", "el numero de cuenta debe tener 10 digitos")
+        return
+    }
+
+    if (Number(amount) <= 0) {
+        showAlert("depositAlert", "la cantidad debe ser mayor a 0")
+        return
+    }
+
     try {
         setButtonLoading(
             depositBtn,
