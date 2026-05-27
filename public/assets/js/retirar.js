@@ -1,19 +1,66 @@
 import {
     doc,
     getDoc,
-    updateDoc,
-    addDoc,
+    writeBatch,
     collection,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js"
 
-import { auth, db } from "./firebase.js"
+import { auth, db } from "./firebase-config.js"
 import { logoutUser, showAlert, hideAlert, setButtonLoading } from "./auth.js"
 
 const form = document.getElementById("retirarForm")
 const amountInput = document.getElementById("amount")
 const retirarBtn = document.getElementById("retirarBtn")
 const logoutBtn = document.getElementById("logoutBtn")
+
+const openNoCard = document.getElementById("openNoCard")
+const openDebitCard = document.getElementById("openDebitCard")
+const noCardPanel = document.getElementById("noCardPanel")
+const debitCardPanel = document.getElementById("debitCardPanel")
+const barcodeBox = document.getElementById("barcodeBox")
+const barcodeText = document.getElementById("barcodeText")
+const withdrawAmountText = document.getElementById("withdrawAmountText")
+
+const money = new Intl.NumberFormat("es-MX", {
+    style: "currency",
+    currency: "MXN"
+})
+
+function openPanel(panel) {
+    noCardPanel?.classList.remove("is-open")
+    debitCardPanel?.classList.remove("is-open")
+
+    panel?.classList.add("is-open")
+
+    hideAlert("retirarAlert")
+    hideAlert("retirarSuccess")
+}
+
+function createWithdrawCode() {
+    return String(Math.floor(100000000000 + Math.random() * 900000000000))
+}
+
+function updateBarcodeBars(code) {
+    const bars = document.querySelectorAll("#barcodeBars span")
+
+    bars.forEach((bar, index) => {
+        const digit = Number(code[index % code.length])
+        const width = digit % 2 === 0 ? 5 : 10
+        const height = digit > 5 ? 100 : 78
+
+        bar.style.width = `${width}px`
+        bar.style.height = `${height}%`
+    })
+}
+
+openNoCard?.addEventListener("click", () => {
+    openPanel(noCardPanel)
+})
+
+openDebitCard?.addEventListener("click", () => {
+    openPanel(debitCardPanel)
+})
 
 form?.addEventListener("submit", async e => {
     e.preventDefault()
@@ -32,8 +79,8 @@ form?.addEventListener("submit", async e => {
         setButtonLoading(
             retirarBtn,
             true,
-            '<i class="bi bi-cash-stack me-2"></i> Retirar dinero',
-            "Procesando retiro..."
+            '<i class="bi bi-upc-scan me-2"></i> Generar código',
+            "Procesando..."
         )
 
         const user = auth.currentUser
@@ -53,6 +100,7 @@ form?.addEventListener("submit", async e => {
 
         const clientData = clientSnap.data()
         const currentBalance = Number(clientData.balance || 0)
+        const totalWithdraws = Number(clientData.totalWithdraws || 0)
 
         if (amount > currentBalance) {
             showAlert("retirarAlert", "Saldo insuficiente")
@@ -60,32 +108,58 @@ form?.addEventListener("submit", async e => {
         }
 
         const newBalance = currentBalance - amount
+        const newTotalWithdraws = totalWithdraws + amount
+        const withdrawCode = createWithdrawCode()
 
-        await updateDoc(clientRef, {
+        const movementRef = doc(collection(db, "movimientos"))
+        const batch = writeBatch(db)
+
+        batch.update(clientRef, {
             balance: newBalance,
+            totalWithdraws: newTotalWithdraws,
             updatedAt: serverTimestamp()
         })
 
-        await addDoc(collection(db, "movimientos"), {
+        batch.set(movementRef, {
             userId: user.uid,
+            clientId: user.uid,
             type: "retiro",
+            tipo: "Retiro",
+            method: "sin tarjeta",
             amount,
+            monto: amount,
+            code: withdrawCode,
             previousBalance: currentBalance,
             newBalance,
-            createdAt: serverTimestamp()
+            createdAt: serverTimestamp(),
+            fecha: serverTimestamp()
         })
 
+        await batch.commit()
+
+        if (barcodeText) {
+            barcodeText.textContent = withdrawCode
+        }
+
+        if (withdrawAmountText) {
+            withdrawAmountText.textContent = money.format(amount)
+        }
+
+        updateBarcodeBars(withdrawCode)
+
+        barcodeBox?.classList.remove("d-none")
         amountInput.value = ""
-        showAlert("retirarSuccess", "Retiro realizado correctamente")
+
+        showAlert("retirarSuccess", "Código generado correctamente. El dinero se descontó de tu cuenta.")
 
     } catch (error) {
         console.error(error)
-        showAlert("retirarAlert", "Error al retirar dinero")
+        showAlert("retirarAlert", "Error al generar el retiro")
     } finally {
         setButtonLoading(
             retirarBtn,
             false,
-            '<i class="bi bi-cash-stack me-2"></i> Retirar dinero'
+            '<i class="bi bi-upc-scan me-2"></i> Generar código'
         )
     }
 })

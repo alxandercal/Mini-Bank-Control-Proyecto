@@ -8,7 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="./assets/css/dashboard.css?v=32">
+    <link rel="stylesheet" href="./assets/css/dashboard.css?v=40">
 </head>
 
 <body class="dashboard-bank-page">
@@ -21,29 +21,31 @@
     </label>
 
     <aside class="bank-sidebar">
+
         <div class="sidebar-logo">
             <img src="./assets/pictures/logoBank.png" alt="Logo banco">
             <h2>ARGENTARIA</h2>
             <p>Sistema bancario académico</p>
         </div>
 
-            <nav>
+        <nav>
+
             <a href="dashboard.html">
                 <i class="bi bi-grid-1x2"></i>
                 <span>Inicio</span>
             </a>
 
             <a href="depositar.html">
-    <i class="bi bi-currency-dollar"></i>
-    <span>Depositar</span>
-</a>
+                <i class="bi bi-currency-dollar"></i>
+                <span>Depositar</span>
+            </a>
 
             <a class="active" href="retirar.html">
                 <i class="bi bi-cash-stack"></i>
                 <span>Retirar</span>
             </a>
-            
-             <a href="transfer.html">
+
+            <a href="transfer.html">
                 <i class="bi bi-arrow-left-right"></i>
                 <span>Transferencias</span>
             </a>
@@ -57,51 +59,247 @@
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Salir</span>
             </a>
+
         </nav>
+
     </aside>
 
     <main class="bank-main">
 
         <header class="bank-header-desktop">
+
             <div>
-                <p>Operación bancaria</p>
-                <h1>Retirar dinero</h1>
+                <p>OPERACIÓN BANCARIA</p>
+                <h1>Retiro sin tarjeta</h1>
             </div>
 
             <div class="header-badge">
                 <i class="bi bi-shield-check"></i>
                 <span>Modo seguro</span>
             </div>
+
         </header>
 
-        <section class="dashboard-card">
+        <section class="withdraw-phone-card">
 
-            <div class="card-title-row">
-                <h3>RETIRAR DINERO</h3>
+            <div class="withdraw-head">
+
+                <div>
+                    <h1>Retira de tu Cuenta Argentaria</h1>
+                    <p>
+                        Límite de retiro diario de tu cuenta:
+                        $15,000.00 MXN
+                    </p>
+                </div>
+
             </div>
 
             <div id="retirarAlert" class="alert alert-danger d-none"></div>
             <div id="retirarSuccess" class="alert alert-success d-none"></div>
 
-            <form id="retirarForm">
+            <div class="withdraw-options">
 
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Monto a retirar</label>
-                    <input type="number" id="amount" class="form-control" placeholder="Ejemplo: 500" min="1">
-                </div>
+                <button class="withdraw-option" id="openNoCard" type="button">
 
-                <button type="submit" id="retirarBtn" class="btn btn-danger w-100 fw-bold">
-                    <i class="bi bi-cash-stack me-2"></i>
-                    Retirar dinero
+                    <div class="withdraw-option-icon">
+                        <i class="bi bi-upc-scan"></i>
+                    </div>
+
+                    <div>
+                        <h3>Retiro sin tarjeta</h3>
+
+                        <p>
+                            Genera un código de barras para retirar
+                            efectivo en cajeros o tiendas autorizadas.
+                        </p>
+                    </div>
+
+                    <i class="bi bi-chevron-right withdraw-arrow"></i>
+
                 </button>
 
-            </form>
+                <button class="withdraw-option" id="openDebitCard" type="button">
+
+                    <div class="withdraw-option-icon">
+                        <i class="bi bi-credit-card"></i>
+                    </div>
+
+                    <div>
+                        <h3>Retiro con tarjeta de débito</h3>
+
+                        <p>
+                            Consulta cajeros disponibles y realiza
+                            retiros usando tu tarjeta física.
+                        </p>
+                    </div>
+
+                    <i class="bi bi-chevron-right withdraw-arrow"></i>
+
+                </button>
+
+            </div>
+
+            <section class="withdraw-panel is-open" id="noCardPanel">
+
+                <div class="withdraw-panel-title">
+                    <h2>Retiro sin tarjeta</h2>
+
+                    <p>
+                        Ingresa el monto y se generará automáticamente
+                        un código de barras seguro para retirar dinero.
+                    </p>
+                </div>
+
+                <form id="retirarForm">
+
+                    <div class="bank-field">
+
+                        <label for="amount">
+                            Monto a retirar
+                        </label>
+
+                        <input
+                            type="number"
+                            id="amount"
+                            placeholder="Ejemplo: 500"
+                            min="1"
+                        >
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        id="retirarBtn"
+                        class="withdraw-main-btn"
+                    >
+                        <i class="bi bi-upc-scan"></i>
+                        Generar código
+                    </button>
+
+                </form>
+
+                <div class="barcode-box d-none" id="barcodeBox">
+
+                    <div class="barcode-header">
+
+                        <i class="bi bi-upc-scan"></i>
+
+                        <div>
+                            <h4>Retiro generado correctamente</h4>
+
+                            <p>
+                                Presenta este código en tienda o cajero
+                                autorizado para retirar efectivo.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="real-barcode" id="barcodeBars">
+
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+
+                    </div>
+
+                    <strong id="barcodeText">
+                        000000000000
+                    </strong>
+
+                    <p class="barcode-help">
+                        Usa este número si el escáner no puede leer
+                        el código de barras.
+                    </p>
+
+                    <div class="withdraw-info-grid">
+
+                        <div class="withdraw-info-item">
+                            <span>Monto</span>
+
+                            <h5 id="withdrawAmountText">
+                                $0.00
+                            </h5>
+                        </div>
+
+                        <div class="withdraw-info-item">
+                            <span>Estado</span>
+
+                            <h5 class="text-success">
+                                Disponible
+                            </h5>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="withdraw-panel" id="debitCardPanel">
+
+                <div class="withdraw-panel-title">
+
+                    <h2>Retiro con tarjeta de débito</h2>
+
+                    <p>
+                        Encuentra cajeros Argentaria disponibles
+                        para realizar retiros físicos.
+                    </p>
+
+                </div>
+
+                <div class="atm-list">
+
+                    <div class="atm-item">
+
+                        <i class="bi bi-bank"></i>
+
+                        <div>
+                            <h4>Cajero Argentaria Centro</h4>
+                            <p>Disponible las 24 horas</p>
+                        </div>
+
+                    </div>
+
+                    <div class="atm-item">
+
+                        <i class="bi bi-bank"></i>
+
+                        <div>
+                            <h4>Cajero Argentaria Plaza Mayor</h4>
+                            <p>Retiro y consulta de saldo</p>
+                        </div>
+
+                    </div>
+
+                    <div class="atm-item">
+
+                        <i class="bi bi-bank"></i>
+
+                        <div>
+                            <h4>Cajero Argentaria Norte</h4>
+                            <p>Retiro rápido y depósitos</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
 
         </section>
 
     </main>
 
-    <script type="module" src="./assets/js/retirar.js?v=1"></script>
+    <script type="module" src="./assets/js/retirar.js?v=8"></script>
 
 </body>
 
