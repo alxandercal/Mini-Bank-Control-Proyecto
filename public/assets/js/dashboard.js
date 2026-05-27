@@ -4,43 +4,64 @@ import {
     updateDoc,
     addDoc,
     collection,
-    serverTimestamp
+    serverTimestamp,
+    onSnapshot,
+    query,
+    where
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js"
 
-import { auth, db } from "./firebase.js"
+import { auth, db } from "./firebase-config.js"
 import {
     observeAuth,
     getCurrentUserProfile,
-    logoutUser,
-    showAlert,
-    hideAlert,
-    setButtonLoading,
-    getFirebaseErrorMessage
+    logoutUser
 } from "./auth.js"
-import { depositToAccount, formatMoney } from "./deposit.js"
 
 const logoutBtn = document.getElementById("logoutBtn")
 const withdrawBtn = document.getElementById("withdrawBtn")
 const balanceText = document.getElementById("balanceText")
+const depositText = document.getElementById("depositText")
+const withdrawText = document.getElementById("withdrawText")
 
 const depositOpenBtn = document.getElementById("depositOpenBtn")
 const depositNavBtn = document.getElementById("depositNavBtn")
-const depositModal = document.getElementById("depositModal")
-const depositCloseBtn = document.getElementById("depositCloseBtn")
-const depositCancelBtn = document.getElementById("depositCancelBtn")
-const depositForm = document.getElementById("depositForm")
-const depositAccountInput = document.getElementById("depositAccount")
-const depositAmountInput = document.getElementById("depositAmount")
-const depositBtn = document.getElementById("depositBtn")
-const depositSuccess = document.getElementById("depositSuccess")
 
 const money = new Intl.NumberFormat("es-MX", {
     style: "currency",
     currency: "MXN"
 })
 
-observeAuth(async (user) => {
+const formatMoney = value => money.format(Number(value) || 0)
+
+const saveDashboardCache = data => {
+    localStorage.setItem("argentariaDashboard", JSON.stringify(data))
+}
+
+const getDashboardCache = () => {
+    try {
+        const saved = localStorage.getItem("argentariaDashboard")
+        return saved ? JSON.parse(saved) : null
+    } catch (error) {
+        localStorage.removeItem("argentariaDashboard")
+        return null
+    }
+}
+
+const renderDashboard = data => {
+    if (balanceText) balanceText.textContent = formatMoney(data.balance)
+    if (depositText) depositText.textContent = formatMoney(data.totalDepositos)
+    if (withdrawText) withdrawText.textContent = formatMoney(data.totalRetiros)
+}
+
+const cachedDashboard = getDashboardCache()
+
+if (cachedDashboard) {
+    renderDashboard(cachedDashboard)
+}
+
+observeAuth(async user => {
     if (!user) {
+        localStorage.removeItem("argentariaDashboard")
         window.location.href = "./login.html"
         return
     }
@@ -51,113 +72,77 @@ observeAuth(async (user) => {
     } catch (error) {
         console.log(error)
     }
-})
 
-const openDepositModal = () => {
-    hideAlert("depositAlert")
-
-    if (depositSuccess) {
-        depositSuccess.classList.add("d-none")
-        depositSuccess.textContent = ""
+    const currentDashboard = {
+        balance: cachedDashboard?.balance || 0,
+        totalDepositos: cachedDashboard?.totalDepositos || 0,
+        totalRetiros: cachedDashboard?.totalRetiros || 0
     }
 
-    depositForm?.reset()
-    depositModal?.classList.add("is-open")
-    depositAccountInput?.focus()
-}
+    const clientRef = doc(db, "clientes", user.uid)
 
-const closeDepositModal = () => {
-    depositModal?.classList.remove("is-open")
-}
+    onSnapshot(clientRef, snap => {
+        if (!snap.exists()) {
+            currentDashboard.balance = 0
+            renderDashboard(currentDashboard)
+            saveDashboardCache(currentDashboard)
+            return
+        }
 
-const renderDepositSuccess = (result) => {
-    if (!depositSuccess) return
+        const data = snap.data()
+        currentDashboard.balance = Number(data.balance || 0)
 
-    depositSuccess.innerHTML = `
-        <i class="bi bi-check-circle-fill me-2"></i>
-        Depósito exitoso a <strong>${result.clientName}</strong><br>
-        Cuenta: <strong>${result.accountNumber}</strong><br>
-        Monto depositado: <strong>${formatMoney(result.amount)}</strong><br>
-        Nuevo saldo: <strong>${formatMoney(result.newBalance)}</strong>
-    `
+        renderDashboard(currentDashboard)
+        saveDashboardCache(currentDashboard)
+    })
 
-    depositSuccess.classList.remove("d-none")
-}
+    const movimientosQuery = query(
+        collection(db, "movimientos"),
+        where("userId", "==", user.uid)
+    )
 
-depositOpenBtn?.addEventListener("click", openDepositModal)
-depositNavBtn?.addEventListener("click", e => {
-    e.preventDefault()
-    openDepositModal()
-})
+    onSnapshot(movimientosQuery, snap => {
+        let totalDepositos = 0
+        let totalRetiros = 0
 
-depositCloseBtn?.addEventListener("click", closeDepositModal)
-depositCancelBtn?.addEventListener("click", closeDepositModal)
+        snap.forEach(docSnap => {
+            const data = docSnap.data()
+            const amount = Number(data.amount || data.monto || 0)
+            const type = data.type || data.tipo || ""
 
-depositModal?.addEventListener("click", e => {
-    if (e.target === depositModal) {
-        closeDepositModal()
-    }
-})
+            if (
+                type === "deposito" ||
+                type === "deposit" ||
+                type === "Depósito"
+            ) {
+                totalDepositos += amount
+            }
 
-depositForm?.addEventListener("submit", async e => {
-    e.preventDefault()
-
-    hideAlert("depositAlert")
-
-    if (depositSuccess) {
-        depositSuccess.classList.add("d-none")
-        depositSuccess.textContent = ""
-    }
-
-    const accountNumber = depositAccountInput.value.trim()
-    const amount = depositAmountInput.value.trim()
-
-    if (!accountNumber || !amount) {
-        showAlert("depositAlert", "Todos los datos son obligatorios")
-        return
-    }
-
-    if (accountNumber.length !== 10) {
-        showAlert("depositAlert", "El número de cuenta debe tener 10 dígitos")
-        return
-    }
-
-    if (Number(amount) <= 0) {
-        showAlert("depositAlert", "La cantidad debe ser mayor a 0")
-        return
-    }
-
-    try {
-        setButtonLoading(
-            depositBtn,
-            true,
-            '<i class="bi bi-currency-dollar me-2"></i>Depositar',
-            "Procesando..."
-        )
-
-        const result = await depositToAccount({
-            accountNumber,
-            amount,
-            performedBy: "dashboard"
+            if (
+                type === "retiro" ||
+                type === "Retiro" ||
+                type === "transferencia" ||
+                type === "Transferencia"
+            ) {
+                totalRetiros += amount
+            }
         })
 
-        renderDepositSuccess(result)
-        depositForm.reset()
+        currentDashboard.totalDepositos = totalDepositos
+        currentDashboard.totalRetiros = totalRetiros
 
-    } catch (error) {
-        console.log(error)
+        renderDashboard(currentDashboard)
+        saveDashboardCache(currentDashboard)
+    })
+})
 
-        const message = error?.message || getFirebaseErrorMessage(error)
+depositOpenBtn?.addEventListener("click", () => {
+    window.location.href = "depositar.html"
+})
 
-        showAlert("depositAlert", message)
-
-    } finally {
-        setButtonLoading(
-            depositBtn,
-            false,
-            '<i class="bi bi-currency-dollar me-2"></i>Depositar'
-        )
-    }
+depositNavBtn?.addEventListener("click", e => {
+    e.preventDefault()
+    window.location.href = "depositar.html"
 })
 
 async function retirarDinero() {
@@ -201,16 +186,32 @@ async function retirarDinero() {
 
     await addDoc(collection(db, "movimientos"), {
         userId: user.uid,
+        clientId: user.uid,
         type: "retiro",
+        tipo: "Retiro",
         amount,
+        monto: amount,
+        accountNumber: clientData.accountNumber || "",
+        cuentaOrigen: clientData.accountNumber || "",
+        cuentaDestino: "Retiro de efectivo",
+        concepto: "Retiro de efectivo",
         previousBalance: currentBalance,
         newBalance,
-        createdAt: serverTimestamp()
+        createdAt: serverTimestamp(),
+        fecha: serverTimestamp()
     })
 
-    if (balanceText) {
-        balanceText.textContent = money.format(newBalance)
+    const cached = getDashboardCache() || {
+        balance: 0,
+        totalDepositos: 0,
+        totalRetiros: 0
     }
+
+    cached.balance = newBalance
+    cached.totalRetiros = Number(cached.totalRetiros || 0) + amount
+
+    saveDashboardCache(cached)
+    renderDashboard(cached)
 
     alert("Retiro realizado correctamente")
 }
@@ -228,6 +229,9 @@ logoutBtn?.addEventListener("click", async e => {
     e.preventDefault()
 
     try {
+        localStorage.removeItem("argentariaDashboard")
+        localStorage.removeItem("argentariaClient")
+
         await logoutUser()
         window.location.href = "./login.html"
     } catch (error) {

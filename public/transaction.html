@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,52 +11,64 @@
 </head>
 
 <body class="dashboard-bank-page">
+
     <input type="checkbox" id="sidebarToggle" class="sidebar-toggle">
+
     <label for="sidebarToggle" class="sidebar-menu-btn">
         <span></span>
         <span></span>
     </label>
+
     <aside class="bank-sidebar">
+
         <div class="sidebar-logo">
             <img src="./assets/pictures/logoBank.png" alt="Logo banco">
             <h2>ARGENTARIA</h2>
             <p>Sistema bancario académico</p>
         </div>
+
         <nav>
-<nav>
+            <a href="dashboard.html">
+                <i class="bi bi-grid-1x2"></i>
+                <span>Inicio</span>
+            </a>
 
-    <a href="dashboard.html">
-        <i class="bi bi-grid-1x2"></i>
-        <span>Inicio</span>
-    </a>
-
-    <a href="#" id="depositNavBtn">
-        <i class="bi bi-currency-dollar"></i>
-        <span>Depositar</span>
-    </a>
-
-    <a href="retirar.html">
-    <i class="bi bi-cash-stack"></i>
-    <span>Retirar</span>
+            <a href="depositar.html">
+    <i class="bi bi-currency-dollar"></i>
+    <span>Depositar</span>
 </a>
 
-    <a class="active" href="transaction.html">
-        <i class="bi bi-journal-text"></i>
-        <span>Movimientos</span>
-    </a>
+            <a href="retirar.html">
+                <i class="bi bi-cash-stack"></i>
+                <span>Retirar</span>
+            </a>
 
-    <a href="#" id="logoutBtn">
-        <i class="bi bi-box-arrow-right"></i>
-        <span>Salir</span>
-    </a>
+            <a href="transfer.html">
+                <i class="bi bi-arrow-left-right"></i>
+                <span>Transferencias</span>
+            </a>
+
+            <a class="active" href="transaction.html">
+                <i class="bi bi-journal-text"></i>
+                <span>Movimientos</span>
+            </a>
+
+            <a href="#" id="logoutBtn">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Salir</span>
+            </a>
+        </nav>
+
     </aside>
 
     <main class="bank-main">
+
         <header class="bank-header-desktop">
             <div>
                 <p>Historial de transacciones</p>
                 <h1>Movimientos de la Cuenta</h1>
             </div>
+
             <div class="header-badge">
                 <i class="bi bi-shield-check"></i>
                 <span>Modo seguro</span>
@@ -63,15 +76,20 @@
         </header>
 
         <section class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-3">
-            <h5 class="mb-3 text-secondary"><i class="bi bi-funnel me-2"></i>Filtrar transacciones</h5>
+            <h5 class="mb-3 text-secondary">
+                <i class="bi bi-funnel me-2"></i>
+                Filtrar transacciones
+            </h5>
+
             <form class="row g-3">
+
                 <div class="col-md-4">
                     <label class="form-label text-muted small">Seleccionar Cuenta</label>
                     <select class="form-select">
                         <option selected>Todas las cuentas</option>
-
                     </select>
                 </div>
+
                 <div class="col-md-3">
                     <label class="form-label text-muted small">Tipo de movimiento</label>
                     <select class="form-select">
@@ -81,13 +99,16 @@
                         <option value="transferencia">Transferencias</option>
                     </select>
                 </div>
+
                 <div class="col-md-3">
                     <label class="form-label text-muted small">Fecha</label>
                     <input type="date" class="form-select">
                 </div>
+
                 <div class="col-md-2 d-flex align-items-end">
                     <button type="button" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i> Buscar
+                        <i class="bi bi-search me-1"></i>
+                        Buscar
                     </button>
                 </div>
 
@@ -95,9 +116,13 @@
         </section>
 
         <section class="card border-0 shadow-sm bg-white rounded-3 overflow-hidden">
+
             <div class="card-body p-0">
+
                 <div class="table-responsive">
+
                     <table class="table table-hover align-middle mb-0">
+
                         <thead class="table-light">
                             <tr>
                                 <th class="ps-4 py-3">Fecha y Hora</th>
@@ -108,27 +133,215 @@
                             </tr>
                         </thead>
 
-
+                        <tbody id="tablaMovimientos">
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                    Cargando historial de movimientos...
+                                </td>
+                            </tr>
+                        </tbody>
 
                     </table>
+
                 </div>
+
             </div>
-            
+
             <div class="card-footer bg-white d-flex justify-content-between align-items-center py-3 border-top-0">
+                <span class="text-muted small" id="totalMovimientosText">Mostrando 0 movimientos</span>
 
                 <nav>
                     <ul class="pagination pagination-sm mb-0">
-                        <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">Anterior</a>
+                        </li>
+
+                        <li class="page-item active">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">Siguiente</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
+
         </section>
 
     </main>
 
     <script type="module" src="./assets/js/dashboard.js"></script>
+
+    <script type="module">
+        import { db } from "./assets/js/firebase-config.js"
+        import { observeAuth, logoutUser } from "./assets/js/auth.js"
+        import {
+            collection,
+            query,
+            where,
+            onSnapshot
+        } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js"
+
+        const tablaMovimientos = document.getElementById("tablaMovimientos")
+        const totalMovimientosText = document.getElementById("totalMovimientosText")
+        const logoutBtn = document.getElementById("logoutBtn")
+
+        const money = new Intl.NumberFormat("es-MX", {
+            style: "currency",
+            currency: "MXN"
+        })
+
+        logoutBtn?.addEventListener("click", async e => {
+            e.preventDefault()
+            await logoutUser()
+            window.location.href = "login.html"
+        })
+
+        observeAuth(user => {
+            if (!user) {
+                window.location.href = "login.html"
+                return
+            }
+
+            const q = query(
+                collection(db, "movimientos"),
+                where("userId", "==", user.uid)
+            )
+
+            onSnapshot(q, snapshot => {
+                let movimientos = []
+
+                snapshot.forEach(docSnap => {
+                    movimientos.push({
+                        id: docSnap.id,
+                        ...docSnap.data()
+                    })
+                })
+
+                movimientos.sort((a, b) => {
+                    const fechaA = a.fecha || a.createdAt
+                    const fechaB = b.fecha || b.createdAt
+
+                    const timeA = fechaA?.toDate ? fechaA.toDate().getTime() : 0
+                    const timeB = fechaB?.toDate ? fechaB.toDate().getTime() : 0
+
+                    return timeB - timeA
+                })
+
+                if (movimientos.length === 0) {
+                    tablaMovimientos.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="bi bi-hourglass-split d-block fs-2 mb-2"></i>
+                                Sin movimientos registrados en esta cuenta.
+                            </td>
+                        </tr>
+                    `
+
+                    totalMovimientosText.innerText = "Mostrando 0 movimientos"
+                    return
+                }
+
+                let htmlRows = ""
+
+                movimientos.forEach(movimiento => {
+                    const fecha = movimiento.fecha || movimiento.createdAt
+
+                    let fechaFormateada = "Reciente"
+                    let horaFormateada = ""
+
+                    if (fecha?.toDate) {
+                        const dateObj = fecha.toDate()
+
+                        fechaFormateada = dateObj.toLocaleDateString("es-MX", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric"
+                        })
+
+                        horaFormateada = dateObj.toLocaleTimeString("es-MX", {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        })
+                    }
+
+                    const tipo = movimiento.tipo || movimiento.type || "Movimiento"
+                    const monto = Number(movimiento.monto || movimiento.amount || 0)
+
+                    let badgeClass = "bg-primary-subtle text-primary border-primary-subtle"
+                    let montoClass = "text-danger"
+                    let signo = "-"
+
+                    if (tipo === "Depósito" || tipo === "deposito") {
+                        badgeClass = "bg-success-subtle text-success border-success-subtle"
+                        montoClass = "text-success"
+                        signo = "+"
+                    }
+
+                    if (tipo === "Retiro" || tipo === "retiro") {
+                        badgeClass = "bg-danger-subtle text-danger border-danger-subtle"
+                        montoClass = "text-danger"
+                        signo = "-"
+                    }
+
+                    if (tipo === "Transferencia" || tipo === "transferencia") {
+                        badgeClass = "bg-primary-subtle text-primary border-primary-subtle"
+                        montoClass = "text-danger"
+                        signo = "-"
+                    }
+
+                    htmlRows += `
+                        <tr>
+                            <td class="ps-4">
+                                <div class="fw-semibold">${fechaFormateada}</div>
+                                <small class="text-muted">${horaFormateada}</small>
+                            </td>
+
+                            <td class="text-monospace text-muted small">
+                                #${movimiento.id.substring(0, 7).toUpperCase()}
+                            </td>
+
+                            <td>
+                                <div class="fw-semibold">${movimiento.concepto || "Sin concepto"}</div>
+                                <small class="text-muted">
+                                    ${movimiento.cuentaOrigen || "N/A"} ➔ ${movimiento.cuentaDestino || "N/A"}
+                                </small>
+                            </td>
+
+                            <td>
+                                <span class="badge ${badgeClass} border rounded-pill px-3">
+                                    ${tipo}
+                                </span>
+                            </td>
+
+                            <td class="text-end pe-4 fw-bold ${montoClass}">
+                                ${signo}${money.format(monto)}
+                            </td>
+                        </tr>
+                    `
+                })
+
+                tablaMovimientos.innerHTML = htmlRows
+
+                totalMovimientosText.innerText =
+                    `Mostrando ${movimientos.length} ${movimientos.length === 1 ? "movimiento" : "movimientos"}`
+            }, error => {
+                console.error("Error al cargar movimientos:", error)
+
+                tablaMovimientos.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-danger">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            Error al cargar datos.
+                        </td>
+                    </tr>
+                `
+            })
+        })
+    </script>
+
 </body>
 
 </html>
