@@ -122,3 +122,11 @@ depositForm?.addEventListener("submit", async (e) => {
         )
     }
 })
+// logout
+const logoutBtn = document.querySelector('a[data-action="logout"]')
+
+logoutBtn?.addEventListener("click", async (e) => {
+    e.preventDefault()
+    await logoutUser()
+    window.location.href = "./login.html"
+})
