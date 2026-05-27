@@ -8,13 +8,26 @@ import {
     doc,
     setDoc,
     getDoc,
-    serverTimestamp
+    serverTimestamp,
+    collection,
+    query,
+    where,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 import { auth, db } from "./firebase-config.js";
 
-function generateAccountNumber() {
-    return Math.floor(1000000000 + Math.random() * 9000000000).toString();
+export async function generateUniqueAccountNumber(db) {
+    const accountNumber = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+    const clientesRef = collection(db, "clientes");
+    const q = query(clientesRef, where("accountNumber", "==", accountNumber));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+        console.warn(`Colisión detectada para el número ${accountNumber}. Regenerando...`);
+        return await generateUniqueAccountNumber(db);
+    }
+    return accountNumber;
 }
 
 export function showAlert(elementId, message) {
@@ -45,18 +58,22 @@ export async function registerUser({ name, email, password, role = "client", ext
     });
 
     switch (role) {
-        case "client":
+        case "client": {
+
+            const uniqueAccount = await generateUniqueAccountNumber(db);
+
             await setDoc(doc(db, "clientes", user.uid), {
                 clientId: user.uid,
                 phone: extraInfo.phone || "",
                 curp: extraInfo.curp || "",
                 address: extraInfo.address || "",
-                accountNumber: generateAccountNumber(),
+                accountNumber: uniqueAccount,
                 balance: 0,
                 state: "Active",
                 updatedAt: serverTimestamp()
             });
             break;
+        }
 
         case "staff":
             await setDoc(doc(db, "staff", user.uid), {

@@ -1,4 +1,4 @@
-import { hideAlert, showAlert, setButtonLoading, loginUser, observeAuth, getFirestoreErrorMessage } from './auth.js'
+import { hideAlert, showAlert, setButtonLoading, loginUser, observeAuth, getFirebaseErrorMessage } from './auth.js'
 
 const form = document.getElementById('loginForm')
 const emailInput = document.getElementById('loginEmail')
@@ -11,7 +11,7 @@ observeAuth(user => {
     }
 })
 
-form ?. addEventListener('submit', (e) => {
+form?.addEventListener('submit', async (e) => {
     e.preventDefault()
 
     const email = emailInput.value.trim()
@@ -24,20 +24,19 @@ form ?. addEventListener('submit', (e) => {
 
     try {
         setButtonLoading(
-            loginBtn, 
+            loginBtn,
             true,
             '<i class="bi bi-box-arrow-in-right me-2"></i>iniciar sesión', 'Iniciando Sesion'
         )
-        await loginUser({email, password})
+        await loginUser({ email, password })
         window.location.href = 'dashboard.html'
     } catch (error) {
-        showAlert('loginAlert', getFirestoreErrorMessage(error))
+        showAlert('loginAlert', getFirebaseErrorMessage(error))
     } finally {
         setButtonLoading(
-            loginBtn, 
-            false, 
+            loginBtn,
+            false,
             '<i class="bi bi-box-arrow-in-right me-2"></i> iniciar sesión'
         )
     }
-        
-})  
+})
