@@ -27,23 +27,23 @@
             <p>Sistema bancario académico</p>
         </div>
 
-            <nav>
+        <nav>
             <a href="dashboard.html">
                 <i class="bi bi-grid-1x2"></i>
                 <span>Inicio</span>
             </a>
 
             <a href="depositar.html">
-    <i class="bi bi-currency-dollar"></i>
-    <span>Depositar</span>
-</a>
+                <i class="bi bi-currency-dollar"></i>
+                <span>Depositar</span>
+            </a>
 
-            <a class="active" href="retirar.html">
+            <a href="retirar.html">
                 <i class="bi bi-cash-stack"></i>
                 <span>Retirar</span>
             </a>
             
-             <a href="transfer.html">
+            <a class="active" href="transfer.html">
                 <i class="bi bi-arrow-left-right"></i>
                 <span>Transferencias</span>
             </a>
@@ -95,9 +95,7 @@
                             <div class="input-group">
                                 <span class="input-group-text bg-light"><i class="bi bi-wallet2"></i></span>
                                 <select class="form-select" id="cuentaOrigen" required>
-                                    <option value="" disabled selected>Seleccionar la cuenta</option>
-                                    <option value="Cuenta Corriente (*4567)">Cuenta Corriente (*4567) - Saldo: $2,500.00</option>
-                                    <option value="Cuenta de Ahorros (*8901)">Cuenta de Ahorros (*8901) - Saldo: $12,350.00</option>
+                                    <option value="" disabled selected>Cargando cuentas y saldos...</option>
                                 </select>
                             </div>
                         </div>
@@ -143,61 +141,9 @@
 
     </main>
 
-    <!-- Tu script original del Dashboard -->
     <script type="module" src="./assets/js/dashboard.js"></script>
+    <script type="module" src="./assets/js/transfer.js"></script>
 
-    <script type="module">
-        // Asegúrate de revisar que la ruta relativa (../ o ./) coincida con la ubicación de tu HTML
-        import { db } from "./assets/js/firebase-config.js"; 
-        import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+    </body>
 
-        // 2. Capturar el formulario y procesar el envío (Tu lógica intacta)
-        const transferForm = document.getElementById('transferForm');
-        const alertContainer = document.getElementById('alertContainer');
-        const btnTransferir = document.getElementById('btnTransferir');
-
-        transferForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); 
-
-            btnTransferir.disabled = true;
-            btnTransferir.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Procesando...`;
-
-            const origen = document.getElementById('cuentaOrigen').value;
-            const destino = document.getElementById('cuentaDestino').value;
-            const monto = parseFloat(document.getElementById('montoTransferir').value);
-            const concepto = document.getElementById('conceptoTransferencia').value;
-
-            try {
-                // 3. Guardar en Firestore usando la base de datos importada 'db'
-                await addDoc(collection(db, "movimientos"), {
-                    cuentaOrigen: origen,
-                    cuentaDestino: destino,
-                    monto: monto,
-                    concepto: concepto,
-                    tipo: "Transferencia",
-                    fecha: serverTimestamp()
-                });
-
-                alertContainer.innerHTML = `
-                    <div class="alert alert-success alert-dismissible fade show rounded-3" role="alert">
-                        <i class="bi bi-check-circle-fill me-2"></i> ¡Transferencia realizada con éxito! Se ha guardado en tu historial.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `;
-
-                transferForm.reset();
-
-            } catch (error) {
-                console.error("Error al guardar la transferencia: ", error);
-                alertContainer.innerHTML = `
-                    <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Error al procesar la transferencia. Inténtalo de nuevo.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `;
-            } finally {
-                btnTransferir.disabled = false;
-                btnTransferir.innerHTML = `<i class="bi bi-arrow-left-right me-2"></i> Ejecutar Transferencia`;
-            }
-        });
-    </script>
+</html>
