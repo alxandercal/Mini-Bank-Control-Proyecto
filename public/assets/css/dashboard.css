@@ -537,3 +537,188 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+ /* MODAL DE DEPOSITO */
+
+.bank-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    padding: 24px;
+    backdrop-filter: blur(4px);
+}
+
+.bank-modal.is-open {
+    display: flex;
+    animation: bank-fade-in .25s ease;
+}
+
+@keyframes bank-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.bank-modal-content {
+    background: white;
+    border-radius: 32px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .35);
+    overflow: hidden;
+    animation: bank-slide-up .3s ease;
+}
+
+@keyframes bank-slide-up {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.bank-modal-header {
+    background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, .22), transparent 34%),
+        linear-gradient(135deg, #003b7a, #0057a8);
+    padding: 28px 32px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bank-modal-header p {
+    text-transform: uppercase;
+    font-size: .8rem;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, .76);
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.bank-modal-header h3 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin: 0;
+}
+
+.bank-modal-close {
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .24);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: .25s;
+    font-size: 1.1rem;
+}
+
+.bank-modal-close:hover {
+    background: rgba(255, 255, 255, .25);
+    transform: rotate(90deg);
+}
+
+.bank-modal-form {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bank-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bank-field label {
+    font-weight: 800;
+    color: #101828;
+    font-size: .95rem;
+}
+
+.bank-field input {
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: .25s;
+    outline: none;
+}
+
+.bank-field input:focus {
+    border-color: #d90429;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(217, 4, 41, .12);
+}
+
+.bank-modal-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.btn-bank {
+    flex: 1;
+    padding: 16px 20px;
+    border-radius: 18px;
+    border: none;
+    font-weight: 900;
+    cursor: pointer;
+    transition: .25s;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-bank-primary {
+    background: linear-gradient(135deg, #d90429, #9b0017);
+    color: white;
+    box-shadow: 0 10px 24px rgba(217, 4, 41, .28);
+}
+
+.btn-bank-primary:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px rgba(217, 4, 41, .38);
+}
+
+.btn-bank-primary:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+.btn-bank-secondary {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.btn-bank-secondary:hover {
+    background: #e2e8f0;
+}
+
+@media (max-width: 500px) {
+    .bank-modal-content {
+        border-radius: 24px;
+    }
+    .bank-modal-header,
+    .bank-modal-form {
+        padding: 22px;
+    }
+    .bank-modal-header h3 {
+        font-size: 1.3rem;
+    }
+}
