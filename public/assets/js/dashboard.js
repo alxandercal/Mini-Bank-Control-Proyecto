@@ -29,6 +29,17 @@ const closeDepositModal = () => {
     depositModal.classList.remove("is-open")
 }
 
+const renderDepositSuccess = (result) => {
+    depositSuccess.innerHTML = `
+        <i class="bi bi-check-circle-fill me-2"></i>
+        Deposito exitoso a <strong>${result.clientName}</strong><br>
+        Cuenta: <strong>${result.accountNumber}</strong><br>
+        Monto depositado: <strong>${formatMoney(result.amount)}</strong><br>
+        Nuevo saldo: <strong>${formatMoney(result.newBalance)}</strong>
+    `
+    depositSuccess.classList.remove("d-none")
+}
+
 // terminan funciones del modal de deposito
 
 observeAuth(async (user) => {
@@ -60,6 +71,8 @@ depositForm?.addEventListener("submit", async (e) => {
     e.preventDefault()
 
     hideAlert("depositAlert")
+    depositSuccess.classList.add("d-none")
+    depositSuccess.textContent = ""
 
     const accountNumber = depositAccountInput.value.trim()
     const amount = depositAmountInput.value.trim()
@@ -94,7 +107,7 @@ depositForm?.addEventListener("submit", async (e) => {
             performedBy: "dashboard"
         })
 
-        console.log("resultado =>", result)
+        renderDepositSuccess(result)
         depositForm.reset()
 
     } catch (error) {
