@@ -3,6 +3,7 @@ import {
     showAlert,
     setButtonLoading,
     loginUser,
+    observeAuth,
     getFirebaseErrorMessage
 } from './auth.js'
 
@@ -11,7 +12,13 @@ const emailInput = document.getElementById('email')
 const passwordInput = document.getElementById('password')
 const loginBtn = document.getElementById('loginBtn')
 
-form?.addEventListener('submit', async e => {
+observeAuth(user => {
+    if (user) {
+        window.location.href = 'dashboard.html'
+    }
+})
+
+form?.addEventListener('submit', async (e) => {
     e.preventDefault()
 
     hideAlert('loginAlert')
@@ -20,7 +27,10 @@ form?.addEventListener('submit', async e => {
     const password = passwordInput.value.trim()
 
     if (!email || !password) {
-        showAlert('loginAlert', 'Por favor, completa todos los campos')
+        showAlert(
+            'loginAlert',
+            'Por favor, completa todos los campos'
+        )
         return
     }
 
@@ -28,8 +38,8 @@ form?.addEventListener('submit', async e => {
         setButtonLoading(
             loginBtn,
             true,
-            '<i class="bi bi-box-arrow-in-right me-2"></i> iniciar sesión',
-            'Iniciando sesión'
+            '<i class="bi bi-box-arrow-in-right me-2"></i> Iniciar sesión',
+            'Iniciando sesión...'
         )
 
         await loginUser({ email, password })
@@ -48,7 +58,7 @@ form?.addEventListener('submit', async e => {
         setButtonLoading(
             loginBtn,
             false,
-            '<i class="bi bi-box-arrow-in-right me-2"></i> iniciar sesión'
+            '<i class="bi bi-box-arrow-in-right me-2"></i> Iniciar sesión'
         )
     }
 })
