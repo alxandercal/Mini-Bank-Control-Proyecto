@@ -6,7 +6,7 @@ import {
     getDocs,
     doc,
     getDoc,
-    updateDoc,
+    runTransaction,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js"
 
@@ -28,6 +28,7 @@ export async function findClientByAccountNumber(accountNumber) {
 }
 
 // deposita dinero en la cuenta del cliente
+// se usa una transaccion para que dos depositos al mismo tiempo no se pisen
 export async function depositToAccount({ accountNumber, amount }) {
 
     if (!accountNumber) {
@@ -47,18 +48,29 @@ export async function depositToAccount({ accountNumber, amount }) {
     }
 
     const clientRef = doc(db, "clientes", client.id)
-    const currentBalance = Number(client.data.balance) || 0
-    const newBalance = currentBalance + numericAmount
 
-    await updateDoc(clientRef, {
-        balance: newBalance,
-        updatedAt: serverTimestamp()
+    const result = await runTransaction(db, async (transaction) => {
+        const snap = await transaction.get(clientRef)
+
+        if (!snap.exists()) {
+            throw new Error("la cuenta dejo de existir")
+        }
+
+        const currentBalance = Number(snap.data().balance) || 0
+        const newBalance = currentBalance + numericAmount
+
+        transaction.update(clientRef, {
+            balance: newBalance,
+            updatedAt: serverTimestamp()
+        })
+
+        return { currentBalance, newBalance }
     })
 
     return {
         accountNumber,
-        previousBalance: currentBalance,
-        newBalance,
+        previousBalance: result.currentBalance,
+        newBalance: result.newBalance,
         amount: numericAmount
     }
 }
